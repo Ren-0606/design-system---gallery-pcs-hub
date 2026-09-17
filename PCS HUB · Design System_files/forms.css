@@ -1,0 +1,148 @@
+/* ============================================================================
+   Form Components — consume the production token contract.
+   Surfaces: --bg-body/block/card/input · Borders: --border-block/accent
+   Text: --text-primary/secondary/muted · Accent: --accent/-rgb/-secondary/-ink
+   Status: --green/yellow/orange/red/blue + --andon-*
+   ========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Button
+   --------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-4);
+  height: var(--control-height-md);
+  padding: 0 var(--control-pad-x);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font: inherit; font-size: var(--font-size-body); font-weight: var(--font-weight-semibold);
+  line-height: 1; cursor: pointer; white-space: nowrap; user-select: none;
+  transition: background-color .15s, border-color .15s, color .15s, transform .12s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: none; }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn:disabled, .btn[aria-disabled="true"] { opacity: var(--disabled-opacity); cursor: not-allowed; transform: none; }
+
+.btn--sm { height: var(--control-height-sm); font-size: var(--font-size-caption); padding: 0 var(--space-6); }
+.btn--lg { height: var(--control-height-lg); font-size: var(--font-size-label); padding: 0 var(--space-12); }
+
+/* Primary — accent fill, ink text */
+.btn--primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn--primary:hover { background: var(--accent-secondary); border-color: var(--accent-secondary); }
+
+/* Secondary — tinted accent (matches .tool-btn / .fc-badge patterns) */
+.btn--secondary { background: rgba(var(--accent-rgb), .08); color: var(--text-primary); border-color: rgba(var(--accent-rgb), .28); }
+.btn--secondary:hover { background: rgba(var(--accent-rgb), .16); border-color: rgba(var(--accent-rgb), .5); }
+
+/* Ghost — text only */
+.btn--ghost { background: transparent; color: var(--text-secondary); border-color: transparent; }
+.btn--ghost:hover { background: rgba(var(--accent-rgb), .12); color: var(--text-primary); }
+
+/* Danger — red status */
+.btn--danger { background: var(--andon-red-bg); color: var(--text-primary); border-color: var(--andon-red-border); }
+.btn--danger:hover { background: var(--red); color: #fff; }
+
+/* ---------------------------------------------------------------------------
+   Field wrapper
+   --------------------------------------------------------------------------- */
+.field { display: flex; flex-direction: column; gap: var(--space-3); }
+.field__label { font-size: var(--font-size-body); font-weight: var(--font-weight-semibold); color: var(--text-primary); }
+.field__help { font-size: var(--font-size-caption); color: var(--text-muted); }
+.field__error { font-size: var(--font-size-caption); color: var(--red); }
+
+/* ---------------------------------------------------------------------------
+   Input / Textarea / Select
+   --------------------------------------------------------------------------- */
+.input, .textarea, .select {
+  width: 100%; min-height: var(--control-height-md);
+  padding: var(--space-3) var(--space-6);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  border: 1px solid var(--border-block);
+  border-radius: var(--radius-md);
+  font: inherit; font-size: var(--font-size-body);
+  transition: border-color .15s;
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-muted); }
+.input:focus-visible, .textarea:focus-visible, .select:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent);
+}
+.input:disabled, .textarea:disabled, .select:disabled { opacity: var(--disabled-opacity); cursor: not-allowed; }
+.input[aria-invalid="true"], .textarea[aria-invalid="true"] { border-color: var(--red); }
+.textarea { min-height: calc(var(--control-height-md) * 2.5); resize: vertical; line-height: var(--line-normal); }
+
+.select {
+  appearance: none; padding-right: var(--space-12);
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 16px) calc(50% - 2px), calc(100% - 11px) calc(50% - 2px);
+  background-size: 5px 5px, 5px 5px; background-repeat: no-repeat;
+}
+
+/* ---------------------------------------------------------------------------
+   Checkbox & Radio
+   --------------------------------------------------------------------------- */
+.choice { display: inline-flex; align-items: center; gap: var(--space-4); cursor: pointer; font-size: var(--font-size-body); color: var(--text-primary); }
+.choice__input { position: absolute; opacity: 0; width: 0; height: 0; }
+.choice__box {
+  display: inline-grid; place-content: center; width: 18px; height: 18px; flex: none;
+  border: 2px solid var(--border-accent);
+  background: var(--bg-input);
+  transition: background .15s, border-color .15s;
+}
+.choice--checkbox .choice__box { border-radius: var(--radius-sm); }
+.choice--radio .choice__box { border-radius: var(--radius-pill); }
+.choice__box::after { content: ""; transform: scale(0); transition: transform .15s var(--ease); }
+.choice--checkbox .choice__box::after {
+  width: 10px; height: 6px; margin-top: -2px;
+  border-left: 2px solid var(--accent-ink); border-bottom: 2px solid var(--accent-ink);
+  transform: rotate(-45deg) scale(0);
+}
+.choice--radio .choice__box::after { width: 8px; height: 8px; border-radius: var(--radius-pill); background: var(--accent-ink); }
+.choice__input:checked + .choice__box { background: var(--accent); border-color: var(--accent); }
+.choice--checkbox .choice__input:checked + .choice__box::after { transform: rotate(-45deg) scale(1); }
+.choice--radio .choice__input:checked + .choice__box::after { transform: scale(1); }
+.choice__input:focus-visible + .choice__box { outline: 2px solid var(--accent); outline-offset: 2px; }
+.choice__input:disabled + .choice__box { opacity: var(--disabled-opacity); }
+
+/* ---------------------------------------------------------------------------
+   Switch
+   --------------------------------------------------------------------------- */
+.switch { display: inline-flex; align-items: center; gap: var(--space-4); cursor: pointer; }
+.switch__input { position: absolute; opacity: 0; width: 0; height: 0; }
+.switch__track {
+  width: 40px; height: 22px; flex: none; border-radius: var(--radius-pill);
+  background: var(--bg-input); border: 1px solid var(--border-accent); position: relative;
+  transition: background .15s, border-color .15s;
+}
+.switch__track::after {
+  content: ""; position: absolute; top: 50%; left: 3px; width: 14px; height: 14px;
+  border-radius: var(--radius-pill); background: var(--text-primary);
+  transform: translateY(-50%); transition: left .15s var(--ease), background .15s;
+}
+.switch__input:checked + .switch__track { background: var(--accent); border-color: var(--accent); }
+.switch__input:checked + .switch__track::after { left: 21px; background: var(--accent-ink); }
+.switch__input:focus-visible + .switch__track { outline: 2px solid var(--accent); outline-offset: 2px; }
+.switch__input:disabled + .switch__track { opacity: var(--disabled-opacity); }
+
+/* ---------------------------------------------------------------------------
+   Dropdown  (models .tool-dropdown)
+   --------------------------------------------------------------------------- */
+.dropdown { position: relative; display: inline-block; }
+.dropdown__menu {
+  position: absolute; top: calc(100% + 4px); left: 0; min-width: 160px;
+  padding: var(--space-3);
+  background: var(--bg-block); border: 1px solid var(--border-block);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+  z-index: var(--z-dropdown); display: none;
+}
+.dropdown[data-open="true"] .dropdown__menu { display: block; }
+.dropdown__item {
+  display: flex; align-items: center; gap: var(--space-4); width: 100%;
+  padding: var(--space-4) var(--space-6); border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: var(--text-primary); font: inherit; font-size: var(--font-size-body);
+  text-align: left; cursor: pointer;
+}
+.dropdown__item:hover { background: rgba(var(--accent-rgb), .15); }
+.dropdown__item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
