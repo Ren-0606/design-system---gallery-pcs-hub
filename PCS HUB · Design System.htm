@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PCS HUB · Design System</title>
+
+  <link rel="stylesheet" href="tokens/primitives.css" />
+  <link rel="stylesheet" href="tokens/themes.css" />
+  <link rel="stylesheet" href="tokens/typography.css" />
+  <link rel="stylesheet" href="components/severity-meter.css" />
+  <link rel="stylesheet" href="components/metric.css" />
+  <link rel="stylesheet" href="components/theme-card.css" />
+  <link rel="stylesheet" href="components/typeface-card.css" />
+  <link rel="stylesheet" href="components/forms.css" />
+  <link rel="stylesheet" href="components/display.css" />
+
+  <style>
+    * { box-sizing: border-box; }
+    .layout { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+    .nav {
+      position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+      border-right: 1px solid var(--border-block); padding: var(--space-10) var(--space-8);
+      background: var(--bg-block);
+    }
+    .nav__brand { font-weight: var(--font-weight-bold); letter-spacing: var(--letter-wide); text-transform: uppercase; font-size: var(--font-size-body); margin-bottom: var(--space-10); }
+    .nav__group { font-size: var(--font-size-caption); text-transform: uppercase; letter-spacing: var(--letter-wide); color: var(--text-muted); margin: var(--space-8) 0 var(--space-3); }
+    .nav a { display: block; padding: var(--space-2) var(--space-4); border-radius: var(--radius-sm); color: var(--text-secondary); text-decoration: none; font-size: var(--font-size-body); }
+    .nav a:hover { background: rgba(var(--accent-rgb), .12); color: var(--text-primary); }
+
+    .toolbar {
+      position: sticky; top: 0; z-index: var(--z-sticky);
+      display: flex; align-items: center; gap: var(--space-8); flex-wrap: wrap;
+      padding: var(--space-6) var(--space-12);
+      background: var(--header-bg); border-bottom: 1px solid var(--border-block);
+    }
+    .toolbar__group { display: flex; align-items: center; gap: var(--space-4); }
+    .toolbar label { font-size: var(--font-size-caption); text-transform: uppercase; letter-spacing: var(--letter-wide); color: var(--text-muted); }
+
+    main { padding: var(--space-10) var(--space-12) var(--space-12); max-width: var(--container-max); }
+    section { padding: var(--space-12) 0; border-top: 1px solid var(--border-block); }
+    section:first-of-type { border-top: 0; }
+    h1 { font-size: 1.6rem; margin: 0 0 var(--space-3); }
+    h2 { font-size: 1.1rem; margin: 0 0 var(--space-2); letter-spacing: var(--letter-wide); text-transform: uppercase; }
+    h3 { font-size: var(--font-size-label); margin: var(--space-10) 0 var(--space-6); color: var(--text-muted); }
+    .lead { color: var(--text-secondary); margin: 0 0 var(--space-8); max-width: 74ch; font-size: var(--font-size-body); }
+
+    .row { display: flex; flex-wrap: wrap; gap: var(--space-6); align-items: center; }
+    .stack { display: flex; flex-direction: column; gap: var(--space-6); }
+    .grid-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: var(--space-8); }
+
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--space-4); }
+    .swatch { border: 1px solid var(--border-block); border-radius: var(--radius-sm); overflow: hidden; background: var(--bg-card); }
+    .swatch__chip { height: 44px; }
+    .swatch__label { padding: var(--space-2) var(--space-4); font-size: var(--font-size-micro); color: var(--text-muted); word-break: break-all; }
+    .scale-row { display: flex; align-items: flex-end; gap: var(--space-4); }
+    .scale-box { background: var(--accent); border-radius: var(--radius-sm); }
+
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .nav { display: none; } }
+  </style>
+</head>
+<body data-typeface="standard">
+  <div class="layout">
+    <aside class="nav">
+      <div class="nav__brand">PCS HUB · DS</div>
+      <div class="nav__group">Foundations</div>
+      <a href="#appearance">Appearance</a>
+      <a href="#color">Color &amp; Andon</a>
+      <a href="#typography">Typography</a>
+      <a href="#layout">Spacing</a>
+      <a href="#iconography">Iconography</a>
+      <div class="nav__group">Form components</div>
+      <a href="#button">Button</a>
+      <a href="#inputs">Inputs</a>
+      <a href="#choice">Checkbox / Radio / Switch</a>
+      <a href="#select">Select &amp; Dropdown</a>
+      <div class="nav__group">Display &amp; feedback</div>
+      <a href="#badge">Badge</a>
+      <a href="#banner">Banner</a>
+      <a href="#card">Card</a>
+      <a href="#avatar">Avatar &amp; List</a>
+      <a href="#loading">Loading</a>
+      <a href="#tabs">Tabs</a>
+      <a href="#tooltip">Tooltip</a>
+      <a href="#toast">Toast</a>
+      <a href="#modal">Modal</a>
+      <a href="#carousel">Carousel</a>
+    </aside>
+
+    <div>
+      <div class="toolbar">
+        <div class="toolbar__group">
+          <label for="theme-select">Theme</label>
+          <select id="theme-select" class="select" style="width:auto"></select>
+        </div>
+        <div class="toolbar__group">
+          <label for="face-select">Typeface</label>
+          <select id="face-select" class="select" style="width:auto"></select>
+        </div>
+        <span class="badge badge--plain" id="mode-badge">dark</span>
+      </div>
+
+      <main>
+        <header>
+          <h1>PCS HUB Design System</h1>
+          <p class="lead">
+            Tokens, themes and components extracted from the production PCS HUB
+            dashboard. 12 themes, 4 typefaces, andon status model. Switch theme or
+            typeface in the toolbar — the page re-skins live.
+          </p>
+        </header>
+
+        <section id="appearance">
+          <h2>Appearance</h2>
+          <p class="lead">Click a theme or typeface card to apply it.</p>
+          <h3>Themes</h3>
+          <div class="grid-auto" id="theme-cards"></div>
+          <h3>Typefaces</h3>
+          <div class="grid-auto" id="face-cards"></div>
+        </section>
+
+        <section id="color">
+          <h2>Color &amp; Andon</h2>
+          <p class="lead">Semantic surfaces/text/accent + the 5-step andon status scale
+            (green → yellow → orange → red, plus blue for info). Values shown are for
+            the active theme. In <em>grays</em> and <em>monolith</em> the scale is neutral.</p>
+          <h3>Semantic tokens</h3>
+          <div class="swatches" id="semantic-swatches"></div>
+          <h3>Andon status</h3>
+          <div class="severity-meter" style="max-width:460px">
+            <span class="severity-seg" data-severity="green"></span>
+            <span class="severity-seg" data-severity="green"></span>
+            <span class="severity-seg" data-severity="yellow"></span>
+            <span class="severity-seg" data-severity="orange"></span>
+            <span class="severity-seg" data-severity="red"></span>
+            <span class="severity-seg" data-severity="blue"></span>
+          </div>
+          <div class="row" style="margin-top:var(--space-6)">
+            <span class="row" style="gap:var(--space-2)"><span class="legend-dot green"></span> green</span>
+            <span class="row" style="gap:var(--space-2)"><span class="legend-dot yellow"></span> yellow</span>
+            <span class="row" style="gap:var(--space-2)"><span class="legend-dot orange"></span> orange</span>
+            <span class="row" style="gap:var(--space-2)"><span class="legend-dot red"></span> red</span>
+            <span class="row" style="gap:var(--space-2)"><span class="legend-dot blue"></span> blue</span>
+          </div>
+        </section>
+
+        <section id="typography">
+          <h2>Typography</h2>
+          <p class="lead">Amazon Ember (Standard). The active typeface applies globally.</p>
+          <div class="stack">
+            <div class="metric" style="font-size:var(--font-size-display)"><span class="metric__value" style="font-size:var(--font-size-display)">Il1 O0 · 1,284</span></div>
+            <div style="font-size:var(--font-size-metric);font-weight:800">Metric — KPI number</div>
+            <div style="font-size:var(--font-size-label);font-weight:700">Label · block title</div>
+            <div style="font-size:var(--font-size-body)">Body text — the default reading size for content and controls.</div>
+            <div style="font-size:var(--font-size-caption);text-transform:uppercase;letter-spacing:var(--letter-wide);color:var(--text-muted)">Caption · section label</div>
+          </div>
+        </section>
+
+        <section id="layout">
+          <h2>Spacing</h2>
+          <p class="lead">Dense px scale (2–24px).</p>
+          <div class="scale-row" id="space-scale"></div>
+        </section>
+
+        <section id="iconography">
+          <h2>Iconography</h2>
+          <p class="lead">Inline SVG stroked with currentColor.</p>
+          <div class="row">
+            <span class="icon icon--sm"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="icon icon--md"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg></span>
+            <span class="icon icon--lg"><svg viewBox="0 0 24 24"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg></span>
+          </div>
+        </section>
+
+        <section id="button">
+          <h2>Button</h2>
+          <h3>Variants</h3>
+          <div class="row">
+            <button class="btn btn--primary">Primary</button>
+            <button class="btn btn--secondary">Secondary</button>
+            <button class="btn btn--ghost">Ghost</button>
+            <button class="btn btn--danger">Danger</button>
+            <button class="btn btn--primary" disabled>Disabled</button>
+          </div>
+          <h3>Sizes</h3>
+          <div class="row">
+            <button class="btn btn--secondary btn--sm">Small</button>
+            <button class="btn btn--secondary">Medium</button>
+            <button class="btn btn--secondary btn--lg">Large</button>
+          </div>
+        </section>
+
+        <section id="inputs">
+          <h2>Inputs &amp; Textarea</h2>
+          <div class="grid-auto">
+            <label class="field"><span class="field__label">Text input</span><input class="input" placeholder="Type a value" /><span class="field__help">Helper text.</span></label>
+            <label class="field"><span class="field__label">Invalid</span><input class="input" aria-invalid="true" value="bad value" /><span class="field__error">Required.</span></label>
+            <label class="field"><span class="field__label">Disabled</span><input class="input" value="Locked" disabled /></label>
+            <label class="field"><span class="field__label">Textarea</span><textarea class="textarea" placeholder="Multi-line…"></textarea></label>
+          </div>
+        </section>
+
+        <section id="choice">
+          <h2>Checkbox / Radio / Switch</h2>
+          <div class="row" style="gap:var(--space-12)">
+            <label class="choice choice--checkbox"><input class="choice__input" type="checkbox" checked /><span class="choice__box"></span> Checked</label>
+            <label class="choice choice--checkbox"><input class="choice__input" type="checkbox" /><span class="choice__box"></span> Unchecked</label>
+            <label class="choice choice--radio"><input class="choice__input" type="radio" name="r" checked /><span class="choice__box"></span> Option A</label>
+            <label class="choice choice--radio"><input class="choice__input" type="radio" name="r" /><span class="choice__box"></span> Option B</label>
+            <label class="switch"><input class="switch__input" type="checkbox" checked /><span class="switch__track"></span> On</label>
+            <label class="switch"><input class="switch__input" type="checkbox" /><span class="switch__track"></span> Off</label>
+          </div>
+        </section>
+
+        <section id="select">
+          <h2>Select &amp; Dropdown</h2>
+          <div class="row" style="align-items:flex-start">
+            <label class="field" style="width:220px"><span class="field__label">Native select</span><select class="select"><option>Region: EU</option><option>Region: NA</option><option>Region: APAC</option></select></label>
+            <div class="dropdown" id="demo-dropdown">
+              <button class="btn btn--secondary" id="dropdown-trigger" aria-haspopup="true" aria-expanded="false">Actions ▾</button>
+              <div class="dropdown__menu" role="menu">
+                <button class="dropdown__item" role="menuitem">Edit</button>
+                <button class="dropdown__item" role="menuitem">Duplicate</button>
+                <button class="dropdown__item" role="menuitem">Archive</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="badge">
+          <h2>Badge</h2>
+          <div class="row">
+            <span class="badge badge--success">Healthy</span>
+            <span class="badge badge--warning">Watch</span>
+            <span class="badge badge--serious">Degraded</span>
+            <span class="badge badge--danger">Critical</span>
+            <span class="badge badge--info">Info</span>
+            <span class="badge badge--plain">Neutral</span>
+          </div>
+        </section>
+
+        <section id="banner">
+          <h2>Banner</h2>
+          <div class="stack">
+            <div class="banner banner--info"><div class="banner__body"><span class="banner__title">Scheduled maintenance</span><span class="banner__text">Read-only 02:00–03:00 UTC.</span></div></div>
+            <div class="banner banner--success"><div class="banner__body"><span class="banner__title">All systems nominal</span></div></div>
+            <div class="banner banner--warning"><div class="banner__body"><span class="banner__title">Throughput drifting</span><span class="banner__text">EU-Central at 82% of target.</span></div></div>
+            <div class="banner banner--danger"><div class="banner__body"><span class="banner__title">SLA breach</span><span class="banner__text">Dock 4 has stalled.</span></div></div>
+          </div>
+        </section>
+
+        <section id="card">
+          <h2>Card</h2>
+          <div class="grid-auto">
+            <div class="card">
+              <div class="card__header"><h3 class="card__title" style="margin:0">Units processed</h3><span class="badge badge--success">+4.2%</span></div>
+              <p class="metric"><span class="metric__value">1,284</span><span class="metric__unit">Units</span></p>
+              <div class="severity-meter"><span class="severity-seg" data-severity="green"></span><span class="severity-seg" data-severity="green"></span><span class="severity-seg" data-severity="yellow"></span><span class="severity-seg" data-severity="orange"></span></div>
+            </div>
+            <div class="card card--raised">
+              <div class="card__header"><h3 class="card__title" style="margin:0">Raised card</h3></div>
+              <div class="card__body">Uses the elevation shadow.</div>
+              <div class="card__footer"><button class="btn btn--ghost btn--sm">Dismiss</button><button class="btn btn--primary btn--sm">Open</button></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="avatar">
+          <h2>Avatar &amp; List</h2>
+          <div class="row" style="margin-bottom:var(--space-8)">
+            <span class="avatar avatar--sm">RS</span>
+            <span class="avatar">RS<span class="avatar__status"></span></span>
+            <span class="avatar avatar--lg">RS</span>
+          </div>
+          <ul class="list" style="max-width:420px">
+            <li class="list__item"><span class="avatar avatar--sm">D1</span> Dock 1 <span class="list__item-meta">Healthy</span></li>
+            <li class="list__item list__item--interactive"><span class="avatar avatar--sm">D4</span> Dock 4 <span class="list__item-meta">Stalled</span></li>
+            <li class="list__item"><span class="avatar avatar--sm">D7</span> Dock 7 <span class="list__item-meta">Watch</span></li>
+          </ul>
+        </section>
+
+        <section id="loading">
+          <h2>Loading</h2>
+          <div class="row" style="margin-bottom:var(--space-8)"><span class="spinner"></span><span class="spinner spinner--lg"></span></div>
+          <div class="progress" style="max-width:420px"><span class="progress__bar"></span></div>
+        </section>
+
+        <section id="tabs">
+          <h2>Tabs</h2>
+          <div class="tabs" id="demo-tabs">
+            <div class="tabs__list" role="tablist">
+              <button class="tabs__tab" role="tab" aria-selected="true" data-tab="0">Overview</button>
+              <button class="tabs__tab" role="tab" aria-selected="false" data-tab="1">Throughput</button>
+              <button class="tabs__tab" role="tab" aria-selected="false" data-tab="2">Alerts</button>
+            </div>
+            <div class="tabs__panel" data-panel="0">Overview panel.</div>
+            <div class="tabs__panel" data-panel="1" hidden>Throughput panel.</div>
+            <div class="tabs__panel" data-panel="2" hidden>Alerts panel.</div>
+          </div>
+        </section>
+
+        <section id="tooltip">
+          <h2>Tooltip</h2>
+          <span class="has-tooltip"><button class="btn btn--secondary">Hover me</button><span class="tooltip" role="tooltip">Extra context</span></span>
+        </section>
+
+        <section id="toast">
+          <h2>Toast</h2>
+          <button class="btn btn--primary" id="toast-btn">Show toast</button>
+        </section>
+
+        <section id="modal">
+          <h2>Modal</h2>
+          <button class="btn btn--primary" id="modal-open">Open modal</button>
+        </section>
+
+        <section id="carousel">
+          <h2>Carousel</h2>
+          <div class="carousel" id="demo-carousel"></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toast-region"></div>
+  <div class="modal-scrim" id="demo-modal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">
+      <div class="modal__header"><h2 class="modal__title" id="m-title">Confirm action</h2><button class="modal__close" id="modal-close" aria-label="Close">✕</button></div>
+      <div class="modal__body">A themed dialog using the block surface + large shadow.</div>
+      <div class="modal__footer"><button class="btn btn--ghost" id="modal-cancel">Cancel</button><button class="btn btn--danger">Delete</button></div>
+    </div>
+  </div>
+
+  <script>
+    const DARK=[["dark","Carbon (dark)"],["midnight","Midnight"],["aurora","Aurora"],["grays","Grays"],["vibes","Vibes"],["gentle","Gentle"],["nightRosetta","Night Rosetta"],["awsSquidInk","AWS Squid Ink"],["monolith","Monolith"]];
+    const LIGHT=[["porcelain","Porcelain"],["rosetta","Rosetta"],["awsLight","AWS Light"]];
+    const FACES=[["standard","Standard"],["narrow","Narrow"],["legible","Hyperlegible"],["terminal","Terminal"]];
+    const html=document.documentElement;
+    const body=document.body;
+
+    const themeSel=document.getElementById("theme-select");
+    themeSel.innerHTML=`<optgroup label="Dark">${DARK.map(([id,n])=>`<option value="${id}">${n}</option>`).join("")}</optgroup><optgroup label="Light">${LIGHT.map(([id,n])=>`<option value="${id}">${n}</option>`).join("")}</optgroup>`;
+    const faceSel=document.getElementById("face-select");
+    faceSel.innerHTML=FACES.map(([id,n])=>`<option value="${id}">${n}</option>`).join("");
+    const modeBadge=document.getElementById("mode-badge");
+
+    function applyTheme(id){html.setAttribute("data-theme",id);themeSel.value=id;
+      modeBadge.textContent=LIGHT.some(([x])=>x===id)?"light":"dark";
+      document.querySelectorAll('[data-role="theme"]').forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.theme===id)));
+      renderSwatches();}
+    function applyFace(id){body.setAttribute("data-typeface",id);faceSel.value=id;
+      document.querySelectorAll('[data-role="typeface"]').forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.typeface===id)));}
+    themeSel.addEventListener("change",e=>applyTheme(e.target.value));
+    faceSel.addEventListener("change",e=>applyFace(e.target.value));
+
+    const miniMeter=`<div class="severity-meter">${["green","green","yellow","orange","red"].map(s=>`<span class="severity-seg" data-severity="${s}"></span>`).join("")}</div>`;
+    function themeCard([id,n]){return `<button class="theme-card" data-theme="${id}" data-role="theme" type="button" aria-pressed="${id===html.getAttribute('data-theme')}"><span class="theme-card__preview"><span class="theme-card__bar"><span class="theme-card__dot"></span><span class="theme-card__tab"></span><span class="theme-card__tab theme-card__tab--idle"></span></span><span class="theme-card__panel"><p class="metric"><span class="metric__value">1,284</span><span class="metric__unit">Units</span></p>${miniMeter}</span></span><span class="theme-card__footer"><span class="theme-card__name">${n}</span><span class="theme-card__check" aria-hidden="true">✓</span></span></button>`;}
+    function faceCard([id,n]){return `<button class="typeface-card" data-typeface="${id}" data-role="typeface" type="button" aria-pressed="${id===body.getAttribute('data-typeface')}" style="font-family:${faceFamily(id)}"><span class="typeface-card__specimen">Il1 O0</span><span class="typeface-card__sample">1,284 · 96.5%</span><span class="typeface-card__footer"><span class="typeface-card__name">${n}</span><span class="typeface-card__check" aria-hidden="true">✓</span></span></button>`;}
+    function faceFamily(id){return ({standard:'"Amazon Ember",system-ui,sans-serif',narrow:'"Amazon Ember Light","Roboto Condensed","Arial Narrow",sans-serif',legible:'"Atkinson Hyperlegible",Verdana,Tahoma,sans-serif',terminal:'"Cascadia Mono",Consolas,monospace'})[id];}
+    document.getElementById("theme-cards").innerHTML=[...DARK,...LIGHT].map(themeCard).join("");
+    document.getElementById("face-cards").innerHTML=FACES.map(faceCard).join("");
+    document.addEventListener("click",e=>{const t=e.target.closest('[data-role="theme"]');if(t){applyTheme(t.dataset.theme);return;}const f=e.target.closest('[data-role="typeface"]');if(f){applyFace(f.dataset.typeface);}});
+
+    const SEMANTIC=["--bg-body","--bg-block","--bg-card","--bg-input","--border-block","--border-accent","--text-primary","--text-secondary","--text-muted","--accent","--green","--yellow","--orange","--red","--blue"];
+    function renderSwatches(){const cs=getComputedStyle(html);
+      document.getElementById("semantic-swatches").innerHTML=SEMANTIC.map(v=>{const val=cs.getPropertyValue(v).trim();return `<div class="swatch"><div class="swatch__chip" style="background:var(${v})"></div><div class="swatch__label">${v}<br>${val||"—"}</div></div>`;}).join("");}
+
+    const SPACES=[1,2,3,4,5,6,8,10,12];
+    document.getElementById("space-scale").innerHTML=SPACES.map(s=>`<div style="text-align:center"><div class="scale-box" style="width:var(--space-${s});height:var(--space-${s})"></div><div class="swatch__label">${s}</div></div>`).join("");
+
+    const dd=document.getElementById("demo-dropdown");
+    document.getElementById("dropdown-trigger").addEventListener("click",()=>{const open=dd.getAttribute("data-open")==="true";dd.setAttribute("data-open",String(!open));dd.querySelector("#dropdown-trigger").setAttribute("aria-expanded",String(!open));});
+    document.addEventListener("click",e=>{if(!dd.contains(e.target)){dd.setAttribute("data-open","false");}});
+
+    const tabs=document.getElementById("demo-tabs");
+    tabs.querySelectorAll(".tabs__tab").forEach(tab=>tab.addEventListener("click",()=>{
+      tabs.querySelectorAll(".tabs__tab").forEach(t=>t.setAttribute("aria-selected",String(t===tab)));
+      tabs.querySelectorAll(".tabs__panel").forEach(p=>p.hidden=p.dataset.panel!==tab.dataset.tab);
+    }));
+
+    let toastN=0;
+    document.getElementById("toast-btn").addEventListener("click",()=>{
+      const kinds=["success","info","warning","danger"];const k=kinds[toastN++%4];
+      const el=document.createElement("div");el.className=`toast toast--${k}`;
+      el.innerHTML=`<span>${k[0].toUpperCase()+k.slice(1)} notification</span><button class="toast__close" aria-label="Dismiss">✕</button>`;
+      el.querySelector(".toast__close").addEventListener("click",()=>el.remove());
+      document.getElementById("toast-region").appendChild(el);
+      setTimeout(()=>el.remove(),4000);
+    });
+
+    const modal=document.getElementById("demo-modal");
+    const openModal=()=>modal.setAttribute("data-open","true");
+    const closeModal=()=>modal.setAttribute("data-open","false");
+    document.getElementById("modal-open").addEventListener("click",openModal);
+    document.getElementById("modal-close").addEventListener("click",closeModal);
+    document.getElementById("modal-cancel").addEventListener("click",closeModal);
+    modal.addEventListener("click",e=>{if(e.target===modal)closeModal();});
+    document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
+
+    document.getElementById("demo-carousel").innerHTML=Array.from({length:6},(_,i)=>`<div class="carousel__slide"><div class="card"><div class="card__header"><h3 class="card__title" style="margin:0">Slide ${i+1}</h3></div><p class="metric"><span class="metric__value">${(i+1)*211}</span><span class="metric__unit">Units</span></p></div></div>`).join("");
+
+    renderSwatches();
+  </script>
+</body>
+</html>
